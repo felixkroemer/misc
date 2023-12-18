@@ -19,23 +19,17 @@ with open("input") as input:
     hMax = max([x[0] for x in field])
     wMin = min([x[1] for x in field])
     wMax = max([x[1] for x in field])
-    w = wMax - wMin + 1
-    h = hMax - hMin + 1
-    print(w,h)
     s = 0
-    for i in range(h):
+    for i in range(hMin, hMax + 1):
         inside = False
-        for j in range(w):
+        dir = None
+        for j in range(wMin, wMax + 1):
             if field.get((i,j), None) == 'U' or (i,j) == (0,0):
-                s += 1
-                inside = True
+                dir = 'U' if dir == None else dir
+                inside = True if dir == 'U' else False
             if field.get((i,j), None) == 'D':
+                dir = 'D' if dir == None else dir
+                inside = True if dir == 'D' else False
+            if inside or (i,j) in field:
                 s += 1
-                inside = False
-            if field.get((i,j), None) != 'U' and field.get((i,j), None) != 'D':
-                if inside or (i,j) in field:
-                    s += 1
-                else:
-                    print((i,j))
-                
     print(s)
