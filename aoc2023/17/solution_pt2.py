@@ -42,7 +42,7 @@ with open("input") as input:
         if i == len(lines) and j == len(lines[0]):
             print(dist[state])
             break
-        #print(state, distance)
+        #print(state, dist[state])
 
         for x in [0] if state == startRight else [3] if state == startDown else turns[dir]:
             a = i + directions[x][0]
@@ -50,26 +50,29 @@ with open("input") as input:
             if a < 0 or b < 0 or a >= len(lines) or b >= len(lines[0]):
                 continue
             newState = ((a,b), x, step + 1 if x == dir else 0)
-            if dist[state] + lines[a][b] < dist.get(newState, math.inf) and newState[2] <= 2:
-                dist[newState] = dist[state] + lines[a][b]
-                q.put((dist[newState], newState))
-
-        """
+            if dist[state] + lines[a][b] < dist.get(newState, math.inf) and newState[2] <= 9:
+                if (x == dir or step >= 3) and not (a == len(lines) - 1 and b == len(lines[0]) - 1):
+                    dist[newState] = dist[state] + lines[a][b]
+                    q.put((dist[newState], newState))
+                if a == len(lines) - 1 and b == len(lines[0]) - 1 and x == dir and step >= 2: # actually 3
+                    dist[newState] = dist[state] + lines[a][b]
+                    q.put((dist[newState], newState))
+        """   
         for h in range(len(lines)):
             for k in range(len(lines[0])):
-                m = 1000
+                m = math.inf
                 for t in range(4):
-                    for w in range(4):
-                        if dist.get(((h,k), t, w), 1000) < m:
-                            m = dist.get(((h,k), t, w), 1000)
+                    for w in range(20):
+                        if dist.get(((h,k), t, w), math.inf) < m:
+                            m = dist.get(((h,k), t, w), math.inf)
                 print(m, " ", end="")
-            print()"""
+            print() """
 
     for h in range(len(lines)):
         for k in range(len(lines[0])):
             m = math.inf
             for t in range(4):
-                for w in range(4):
+                for w in range(20):
                     if dist.get(((h,k), t, w), math.inf) < m:
                         m = dist.get(((h,k), t, w), math.inf)
             print(m, " ", end="")
