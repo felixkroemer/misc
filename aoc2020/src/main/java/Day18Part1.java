@@ -58,7 +58,7 @@ public class Day18Part1 {
       }
     } else {
       int i = src.length() - 2;
-      while (src.charAt(i) != '+' && src.charAt(i) != '*' && src.charAt(i) != '(') {
+      while (src.charAt(i) != '+' && src.charAt(i) != '*') {
         i--;
       }
       var num = Integer.parseInt(src.substring(i + 1));
